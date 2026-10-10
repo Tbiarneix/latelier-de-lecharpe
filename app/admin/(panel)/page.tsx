@@ -5,6 +5,7 @@ import { requireAdmin } from "@/lib/admin-session";
 export const dynamic = "force-dynamic";
 
 const SECTIONS = [
+  { href: "/admin/reservations", title: "Réservations", text: "Voir les demandes reçues, leur état, et renvoyer un mail qui n'est pas parti." },
   { href: "/admin/cartes", title: "Cartes", text: "Ajouter ou retirer les cartes (PDF ou images) du dîner, de la fiesta et du brunch." },
   { href: "/admin/horaires", title: "Horaires", text: "Modifier les horaires d'ouverture affichés sur le site." },
   { href: "/admin/conges", title: "Congés", text: "Fermer le restaurant sur une période (vacances, travaux…)." },

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 export const ADMIN_LINKS = [
   { href: "/admin", label: "Accueil" },
+  { href: "/admin/reservations", label: "Réservations" },
   { href: "/admin/cartes", label: "Cartes" },
   { href: "/admin/horaires", label: "Horaires" },
   { href: "/admin/conges", label: "Congés" },
