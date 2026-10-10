@@ -121,6 +121,10 @@ Développeur : front Next/TypeScript, spécialisé accessibilité (RGAA/WCAG).
 - À FAIRE avant la mise en ligne : renseigner `LEGAL.legalForm`, `LEGAL.siret`, `LEGAL.publisher` (mentions légales) ;
   relire la politique de confidentialité avec la cliente ; choisir la région Neon (UE recommandée).
 
+## Recette (mode sans SMTP)
+- `MAIL_DISABLED=true` (`lib/mail.ts`) : mails dans les logs ; `check:env` ne l'accepte pas sur le vrai domaine.
+- `db:bootstrap` (dans `vercel-build`) : `BOOTSTRAP_ADMIN_EMAIL/PASSWORD`, `BOOTSTRAP_SEED=true` ; idempotent. À retirer après usage.
+
 ## Base de données (dev)
 - `db/schema.ts` (Drizzle), migrations SQL versionnées dans `drizzle/` (`npm run db:generate` après
   chaque changement de schéma, à committer).

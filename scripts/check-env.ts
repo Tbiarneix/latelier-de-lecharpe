@@ -17,7 +17,18 @@ const REQUIRED: [string, string][] = [
 ];
 
 const isProduction = process.env.VERCEL_ENV === "production";
-const missing = REQUIRED.filter(([name]) => !process.env[name]);
+const mailDisabled = process.env.MAIL_DISABLED === "true";
+const MAIL_VARS = ["SMTP_HOST", "SMTP_USER", "SMTP_PASSWORD", "MAIL_TO_RESTAURANT"];
+// Mode recette : les mails ne sont pas envoyés, leur configuration n'est donc pas exigée.
+const missing = REQUIRED.filter(([name]) => !process.env[name] && !(mailDisabled && MAIL_VARS.includes(name)));
+
+if (mailDisabled) {
+  if (/latelierdelecharpe\.fr/.test(`${process.env.SITE_URL}${process.env.BETTER_AUTH_URL}`)) {
+    console.error("\nMAIL_DISABLED=true est refusé sur le vrai domaine : supprimer la variable avant la mise en ligne.\n");
+    process.exit(1);
+  }
+  console.warn("\n⚠ MAIL_DISABLED=true : aucun mail n'est envoyé (ils sont écrits dans les logs). Recette uniquement.\n");
+}
 
 if (missing.length) {
   const lines = missing.map(([name, help]) => `  - ${name} : ${help}`).join("\n");
