@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/confidentialite" },
 };
 
+// Le pied de page affiche les horaires lus en base : pas de rendu statique.
+export const dynamic = "force-dynamic";
+
 export default function ConfidentialitePage() {
   return (
     <SiteShell>

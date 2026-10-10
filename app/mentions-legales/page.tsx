@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/mentions-legales" },
 };
 
+// Le pied de page affiche les horaires lus en base : pas de rendu statique.
+export const dynamic = "force-dynamic";
+
 export default function MentionsLegalesPage() {
   if (LEGAL_MISSING.length > 0 && process.env.NODE_ENV === "production") {
     console.warn(`Mentions légales incomplètes (lib/legal.ts) : ${LEGAL_MISSING.join(", ")}`);
