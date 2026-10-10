@@ -1,51 +1,25 @@
 "use client";
 
 import { BadgeCheck } from "lucide-react";
-import React, { useState , useEffect , useRef } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { fr } from "date-fns/locale";
 import emailjs from "@emailjs/browser";
-import { createBrowserClient } from '@supabase/ssr';
+import type { Formule, HolidayPeriod } from "@/lib/data";
+import type { OpeningDay } from "@/db/schema";
 
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { db: { schema: 'latelier_de_lecharpe' } }
-  )
-
-type Formule = {
-  id: number;
-  nom: string;
-  prix: number;
-  description: string | null;
-  elements: string[];
-  active: boolean;
+type ReservationFormProps = {
+  formules: Formule[];
+  openingHours: OpeningDay[];
+  holidayPeriods: HolidayPeriod[];
+  closedDays: string[];
 };
 
 registerLocale("fr", fr);
 setDefaultLocale("fr");
 
-const ReservationForm = () => {
-
-  const [formules, setFormules] = useState<Formule[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchFormules = async () => {
-    setLoading(true);
-    const { data, error } = await supabase
-      .from("formules")
-      .select("*")
-      .order("prix", { ascending: true });
-
-    if (error) {
-      console.error(error);
-      setFormules([]);
-    } else if (data) {
-      setFormules(data.filter((f: any) => f.active));
-    }
-    setLoading(false);
-  };
+const ReservationForm = ({ formules, openingHours, holidayPeriods, closedDays }: ReservationFormProps) => {
 
   const translations = {
     fr: {
@@ -161,7 +135,6 @@ const ReservationForm = () => {
     reservationState: "",
   });
 
-  const [closedDays, setClosedDays] = useState<string[]>([]);
 
   const [succeeded, setSucceeded] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("fr");
@@ -236,73 +209,25 @@ const ReservationForm = () => {
     });
 };
 
-    const [openingHours, setOpeningHours] = useState<any[]>([]);
-    const [holidays, setHolidays] = useState<Date[]>([]);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [availableTimes, setAvailableTimes] = useState<string[]>([]);
     const [selectedValue, setSelectedValue] = useState("");
     const [isOpen, setIsOpen] = useState(false);
 
-    // Charger les horaires et jours fériés depuis la DB
-    useEffect(() => {
-      async function fetchData() {
-        // Opening hours
-        const { data: hoursData, error: hoursError } = await supabase
-          .from("opening_hours")
-          .select("*")
-          .eq("id", 1)
-          .single();
+    // Tous les jours couverts par les périodes de congés
+    const holidays = useMemo(() => {
+      const allHolidayDates: Date[] = [];
+      holidayPeriods.forEach((p) => {
+        const start = new Date(p.debut);
+        const end = new Date(p.fin);
 
-        if (!hoursError && hoursData?.hours) {
-          setOpeningHours(hoursData.hours); // tableau de 7 éléments correspondant aux jours de la semaine
+        // Ajouter tous les jours entre start et end
+        for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+          allHolidayDates.push(new Date(d)); // nouvelle instance pour éviter les références partagées
         }
-
-        // Holidays
-        const { data: holidaysData, error: holidaysError } = await supabase
-          .from("holidays")
-          .select("periods");
-
-        if (!holidaysError && holidaysData) {
-          const allHolidayDates: Date[] = [];
-
-          holidaysData.forEach((row: any) => {
-            const periods = row.periods; // [{"debut": "...", "fin": "..."}]
-            if (Array.isArray(periods)) {
-              periods.forEach((p: any) => {
-                const start = new Date(p.debut);
-                const end = new Date(p.fin);
-
-                // Ajouter tous les jours entre start et end
-                for (
-                  let d = new Date(start);
-                  d <= end;
-                  d.setDate(d.getDate() + 1)
-                ) {
-                  allHolidayDates.push(new Date(d)); // créer une nouvelle instance pour éviter les références
-                }
-              });
-            }
-          });
-
-          setHolidays(allHolidayDates);
-        }
-
-        // Charger les jours complets
-        const { data: closedDaysData, error: closedDaysError } = await supabase
-          .from("closed_days")
-          .select("days")
-          .eq("restaurant_id", 1)
-          .single();
-
-        if (!closedDaysError && closedDaysData?.days) {
-          setClosedDays(closedDaysData.days);
-        }
-      }
-
-      fetchData();
-
-      fetchFormules();
-    }, []);
+      });
+      return allHolidayDates;
+    }, [holidayPeriods]);
 
     const formatDateString = (date: Date): string => {
       const year = date.getFullYear();

@@ -5,6 +5,8 @@ import MainPage from "../../components/MainPage";
 import Navbar from "../../components/Navbar";
 import { Analytics } from "@vercel/analytics/react";
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   return (
     <main className="flex flex-col items-center">

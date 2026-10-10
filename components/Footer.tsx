@@ -1,36 +1,10 @@
-'use client'
-
-import { useEffect, useState } from "react";
 import { Mail, Phone } from "lucide-react";
 import { InstagramIcon } from "@/components/icons/InstagramIcon";
-import React from "react";
-import { createBrowserClient } from '@supabase/ssr';
+import HoursList from "@/components/HoursList";
+import { getOpeningHours } from "@/lib/data";
 
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { db: { schema: 'latelier_de_lecharpe' } }
-  )
-
-function Footer() {
-
-  const [hours, setHours] = useState<any[] | null>(null);
-
-  useEffect(() => {
-    async function fetchHours() {
-      const { data, error } = await supabase
-        .from("opening_hours")
-        .select("hours")
-        .eq("id", 1)
-        .single();
-
-      if (!error && data?.hours) {
-        setHours(data.hours);
-      }
-    }
-
-    fetchHours();
-  }, []);
+async function Footer() {
+  const hours = await getOpeningHours();
 
   return (
     <footer className="w-full bg-redWine flex flex-col justify-center items-center">
@@ -38,40 +12,7 @@ function Footer() {
         <div className="lg:w-1/3 w-full text-cream flex flex-col items-center justify-center">
           <h4 className="font-specialElite text-4xl mb-3">HORAIRES</h4>
 
-          {!hours ? (
-            <p>Chargement...</p>
-          ) : (
-            <ul className="flex flex-col items-center justify-center space-y-2 text-center">
-              {hours.map((h: any) => {
-                const closedAllDay = h.closedDay;
-                const closedLunch = h.closedLunch;
-                const closedDiner = h.closedDiner;
-
-                return (
-                  <li key={h.day} className="font-semibold">
-                    <strong>{h.day} :</strong>{" "}
-                    {closedAllDay ? (
-                      <span>fermé</span>
-                    ) : (
-                      <span>
-                        {/* Midi */}
-                        {closedLunch
-                          ? "fermé le midi"
-                          : `${h.midi.debut || "—"} - ${h.midi.fin || "—"}`}
-
-                        {" | "}
-
-                        {/* Soir */}
-                        {closedDiner
-                          ? "fermé le soir"
-                          : `${h.soir.debut || "—"} - ${h.soir.fin || "—"}`}
-                      </span>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
+          <HoursList hours={hours} className="flex flex-col items-center justify-center space-y-2 text-center" />
         </div>
 
         <div className="lg:w-1/3 w-full text-cream flex flex-col items-center justify-center">

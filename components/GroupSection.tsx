@@ -1,49 +1,11 @@
-'use client'
-
-import React, { useState, useEffect } from "react";
+import React from "react";
 import FormuleCard from "@/components/FormuleCard";
-import { createBrowserClient } from '@supabase/ssr';
+import { getActiveFormules } from "@/lib/data";
 
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { db: { schema: 'latelier_de_lecharpe' } }
-  );
+export default async function GroupSection() {
+  const formules = await getActiveFormules();
 
-type Formule = {
-  id: number;
-  nom: string;
-  prix: number;
-  description: string | null;
-  elements: string[];
-  active: boolean;
-};
-
-export default function GroupSection() {
-  const [formules, setFormules] = useState<Formule[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchFormules = async () => {
-    setLoading(true);
-    const { data, error } = await supabase
-      .from("formules")
-      .select("*")
-      .order("prix", { ascending: true });
-
-    if (error) {
-      console.error(error);
-      setFormules([]);
-    } else if (data) {
-      setFormules(data.filter((f: any) => f.active));
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchFormules();
-  }, []);
-
-  if (loading) return <p className="text-center py-10 text-mustard font-specialElite">Chargement...</p>;
+  if (formules.length === 0) return null;
 
   return (
     <div className="w-screen bg-blueLight flex flex-col justify-center items-center py-20">
@@ -62,7 +24,7 @@ export default function GroupSection() {
             nom={f.nom}
             prix={f.prix}
             description={f.description}
-            elements={f.elements || []}
+            elements={f.elements}
           />
         ))}
       </div>
