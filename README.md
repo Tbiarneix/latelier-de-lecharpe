@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# L'Atelier de l'Écharpe
 
-## Getting Started
+Site du restaurant L'Atelier de l'Écharpe (Toulouse) : vitrine, cartes, réservation en ligne et espace d'administration.
 
-First, run the development server:
+**Stack** : Next.js 16 (App Router) · React 19 · TypeScript · Tailwind 3 · Framer Motion · Drizzle ORM · Postgres (Neon en production, PGlite en local) · Better Auth · Vercel Blob · Nodemailer (SMTP IONOS).
+
+## Démarrage
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+npm install
+cp .env.example .env.local        # puis y mettre BETTER_AUTH_SECRET (n'importe quelle chaîne de 32+ caractères en local)
+npm run db:migrate && npm run db:seed
+npm run admin:create -- moi@exemple.fr "Mon Nom"   # crée un compte admin (mot de passe demandé)
+npm run dev                       # http://localhost:3000 — admin : /admin
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+En local, sans configuration :
+- la base est **PGlite** (`.data/pglite`, ignoré par git) ;
+- les cartes envoyées sont écrites dans `public/uploads` ;
+- les **mails s'affichent dans la console** (lien `/r/<jeton>` inclus).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Les autres variables (Neon, Blob, SMTP) ne sont nécessaires qu'en production.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Scripts
 
-## Learn More
+| Commande | Rôle |
+|---|---|
+| `npm run dev` / `build` / `start` | Next.js |
+| `npm run db:generate` | génère une migration SQL après modification de `db/schema.ts` |
+| `npm run db:migrate` | applique les migrations (Neon si `DATABASE_URL`, sinon PGlite) |
+| `npm run db:seed` | importe `db/seed-data.json` (refuse une base non vide ; `--force` requis sur Neon) |
+| `npm run db:reset` | supprime la base locale PGlite |
+| `npm run admin:create -- email "Nom"` | crée un administrateur ou réinitialise son mot de passe |
+| `npm run check:env` | vérifie les variables de production (bloque le déploiement si incomplètes) |
+| `npm run lint` | ESLint |
 
-To learn more about Next.js, take a look at the following resources:
+Arrêter `next dev` avant les commandes `db:*` : PGlite n'accepte qu'un processus à la fois.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Organisation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```
+app/                 pages (public, /admin, /r/[token], /api)
+components/          composants (public, admin/, reservation/, menu/)
+db/                  schéma Drizzle, connexion, données initiales
+drizzle/             migrations SQL versionnées
+lib/                 accès aux données, auth, mails, règles de réservation
+scripts/             migration, seed, création d'admin, vérification d'environnement
+docs/                guide de mise en production
+```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-coucouu
+Le contexte du projet, les décisions d'architecture et l'état d'avancement sont dans [`CLAUDE.md`](CLAUDE.md).
+La mise en production (Vercel, Neon, IONOS, bascule DNS) est décrite dans [`docs/mise-en-production.md`](docs/mise-en-production.md).
