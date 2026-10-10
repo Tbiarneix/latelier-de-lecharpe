@@ -6,7 +6,7 @@ Les étapes qui demandent un compte (Vercel, IONOS…) se font avec les identifi
 ## 0. Avant de commencer
 
 - [ ] Comptes ouverts **au nom de la cliente** : Vercel, GitHub (le dépôt peut rester chez le développeur, ou être transféré), IONOS (déjà existant : domaine + messagerie).
-- [ ] Vercel : l'offre gratuite (Hobby) est réservée à un usage personnel non commercial ; un restaurant relève de l'offre **Pro**. À vérifier dans les conditions de Vercel.
+- [x] Vercel : l'offre gratuite (Hobby) est retenue (décision du propriétaire du projet : site vitrine, pas de SaaS payant). La tâche de purge quotidienne (`vercel.json`) respecte la limite d'une exécution par jour de cette offre.
 - [ ] Renseigner `lib/legal.ts` : forme juridique, SIRET, directeur de la publication (mentions légales obligatoires).
 - [ ] Mettre les vraies horaires et formules dans `db/seed-data.json` (ou les saisir ensuite dans l'admin).
 - [ ] **Noter les enregistrements DNS actuels** (surtout les `MX`, mais aussi `TXT`/SPF, `CNAME`) : capture d'écran de la zone DNS chez IONOS, ou `dig +noall +answer ANY latelierdelecharpe.fr`.
@@ -32,7 +32,8 @@ Les étapes qui demandent un compte (Vercel, IONOS…) se font avec les identifi
 | `CRON_SECRET` | `openssl rand -base64 32` (Vercel l'envoie à la tâche de purge) |
 
    Tant que le domaine n'est pas basculé, mettre l'URL `…vercel.app` dans `BETTER_AUTH_URL` et `SITE_URL`, puis la remplacer au moment de la bascule.
-5. Déployer. Le script `vercel-build` **bloque** un déploiement de production s'il manque une variable (liste affichée dans les logs), puis applique les migrations de base (`drizzle/`) avant de construire le site.
+5. **Protection des déploiements** : par défaut Vercel protège les adresses `*.vercel.app` par une connexion Vercel (*Settings → Deployment Protection*). Pour la recette avec la cliente, soit lui donner accès à l'équipe, soit désactiver la protection pour la production ; le domaine personnalisé n'est pas concerné.
+6. Déployer. Le script `vercel-build` **bloque** un déploiement de production s'il manque une variable (liste affichée dans les logs), puis applique les migrations de base (`drizzle/`) avant de construire le site.
 
 ## 2. Compte administrateur et données
 
