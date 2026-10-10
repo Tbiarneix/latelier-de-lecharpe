@@ -61,7 +61,7 @@ Développeur : front Next/TypeScript, spécialisé accessibilité (RGAA/WCAG).
    URL de base via variable d'env (plus de `latelier-de-lecharpe.vercel.app` en dur).
 5. **Gestion des réservations (admin)** — FAIT (branche `feat/gestion-reservations`, empilée). Cible : « Aujourd'hui / À venir », filtre statut, annuler, modifier,
    ajout manuel (téléphone → confirmée, email facultatif), case « prévenir le client ».
-6. **Accessibilité, SEO, RGPD** — passe RGAA (h1 découpé en h1/h2/h3 sur l'accueil, sélecteur de langue
+6. **Accessibilité, SEO, RGPD** — FAIT (branche `feat/accessibilite-rgpd`, empilée). Passe RGAA (h1 découpé en h1/h2/h3 sur l'accueil, sélecteur de langue
    en emoji sans libellé ni `lang`, formulaires, focus, contrastes), purge des réservations > 12 mois,
    mentions RGPD.
 7. **Bascule** — variables de prod Vercel, migration Neon, import des données, SMTP IONOS, recette,
@@ -105,6 +105,21 @@ Développeur : front Next/TypeScript, spécialisé accessibilité (RGAA/WCAG).
   couverts, notes), renvoyer les mails ; case « prévenir le client » (mails `cancelled` / `modified` / `confirmed`).
   Les modifications de l'équipe ne sont PAS bloquées par horaires/congés/jours complets (exceptions possibles).
 - Transitions gardées en SQL (`WHERE status IN (...)`) dans `lib/reservations/service.ts`.
+
+## Accessibilité, SEO, RGPD (étape 6)
+- Gabarit public `components/SiteShell.tsx` (lien d'évitement, `<main id="contenu">`) ; `MotionConfig reducedMotion="user"`
+  (`components/Providers.tsx`) ; focus visible global (`globals.css`). Un seul h1 par page (accueil : « L'ATELIER DE L'ÉCHARPE »).
+- Popup Happy hour = Radix Dialog (focus piégé, Échap, ne revient pas dans la session) ; formules = bouton `aria-expanded` ;
+  infobulles de paiement remplacées par du texte ; contrastes corrigés (titre contact en rouge, formules en bleu foncé).
+- Audit : axe-core (WCAG 2.2 AA + best-practice) sur toutes les pages publiques/admin, desktop + mobile, états ouverts → 0 violation.
+  Le relancer après tout changement d'UI (script jetable : injecter `axe.min.js` via Playwright).
+- SEO : métadonnées par page (titre via `template`, canonical, description), JSON-LD `Restaurant` (horaires lus en base) sur l'accueil,
+  sitemap + robots (`/admin`, `/api/`, `/r/` exclus).
+- RGPD : `/mentions-legales` (champs dans `lib/legal.ts`, à compléter), `/confidentialite`, mention dans le formulaire (4 langues),
+  purge quotidienne (`lib/reservations/purge.ts`, route `/api/cron/purge`, `vercel.json`, secret `CRON_SECRET`) :
+  réservations > 12 mois (après leur date), sessions/vérifications expirées, compteurs de rate limit.
+- À FAIRE avant la mise en ligne : renseigner `LEGAL.legalForm`, `LEGAL.siret`, `LEGAL.publisher` (mentions légales) ;
+  relire la politique de confidentialité avec la cliente ; choisir la région Neon (UE recommandée).
 
 ## Base de données (dev)
 - `db/schema.ts` (Drizzle), migrations SQL versionnées dans `drizzle/` (`npm run db:generate` après

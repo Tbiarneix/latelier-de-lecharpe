@@ -8,8 +8,8 @@ export default async function GroupSection() {
   if (formules.length === 0) return null;
 
   return (
-    <div className="w-screen bg-blueLight flex flex-col justify-center items-center py-20">
-      <h2 className="w-11/12 text-center leading-none text-3xl text-mustard font-specialElite tracking-wide">
+    <section aria-labelledby="formules-groupe" className="w-screen bg-blueLight flex flex-col justify-center items-center py-20">
+      <h2 id="formules-groupe" className="w-11/12 text-center leading-none text-3xl text-mustard font-specialElite tracking-wide">
         Nos formules de groupe
       </h2>
 
@@ -28,6 +28,6 @@ export default async function GroupSection() {
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 }

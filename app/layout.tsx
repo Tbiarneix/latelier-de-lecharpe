@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
+import Providers from "@/components/Providers";
 
 // Inter auto-hébergée (aucun appel à Google Fonts, ni au build ni chez le visiteur).
 const inter = localFont({
@@ -26,7 +27,10 @@ const description =
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.latelierdelecharpe.fr"),
-  title: "L'atelier de l'écharpe",
+  title: {
+    default: "L'Atelier de l'Écharpe – bar, bistrot et fiesta à Toulouse",
+    template: "%s | L'Atelier de l'Écharpe",
+  },
   description,
   keywords: [
     "Bar",
@@ -65,7 +69,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={inter.className}>
-        {children}
+        <Providers>{children}</Providers>
         <SpeedInsights />
         <Analytics />
       </body>

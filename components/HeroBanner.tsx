@@ -59,35 +59,38 @@ function HeroBanner() {
         />
       </div>
       <div className="relative z-20 flex flex-col leading-none">
-        <motion.h1
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={textVariantsLeft}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-blueLight tracking-wider font-eina"
-        >
-          L'ATELIER
-        </motion.h1>
-        <motion.h2
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={textVariantsTop}
-          className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-blueLight tracking-wide"
-        >
-          <div className="absolute -rotate-90 translate-x-[138px] -translate-y-[42px] sm:translate-x-[172px] sm:-translate-y-[52px] md:translate-x-[206px] md:-translate-y-[63px] lg:translate-x-[275px] lg:-translate-y-[84px] font-eina">
-            DE
-          </div>
-        </motion.h2>
-        <motion.h3
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={textVariantsRight}
-          className="text-blueLight text-xl sm:text-2xl md:text-3xl lg:text-4xl text-end font-eina"
-        >
-          L'ÉCHARPE
-        </motion.h3>
+        {/* Un seul titre : « L'ATELIER DE L'ÉCHARPE », composé de trois éléments animés. */}
+        <h1 className="flex flex-col leading-none">
+          <motion.span
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={textVariantsLeft}
+            className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-blueLight tracking-wider font-eina"
+          >
+            L&apos;ATELIER
+          </motion.span>{" "}
+          <motion.span
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={textVariantsTop}
+            className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl text-blueLight tracking-wide"
+          >
+            <span className="absolute -rotate-90 translate-x-[138px] -translate-y-[42px] sm:translate-x-[172px] sm:-translate-y-[52px] md:translate-x-[206px] md:-translate-y-[63px] lg:translate-x-[275px] lg:-translate-y-[84px] font-eina">
+              DE
+            </span>
+          </motion.span>{" "}
+          <motion.span
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={textVariantsRight}
+            className="block text-blueLight text-xl sm:text-2xl md:text-3xl lg:text-4xl text-end font-eina"
+          >
+            L&apos;ÉCHARPE
+          </motion.span>
+        </h1>
       </div>
     </div>
   );

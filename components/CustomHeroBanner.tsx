@@ -25,9 +25,7 @@ function CustomHeroBanner(props: any) {
         backgroundColor: props.colorBG || "#000", // couleur par défaut si rien n'est fourni
       }}
     >
-      <div className="w-full h-full z-40 absolute"></div>
-
-      <div className="relative z-40 h-full flex flex-col items-center justify-center leading-none">
+            <div className="relative z-40 h-full flex flex-col items-center justify-center leading-none">
         <motion.h1
           initial="hidden"
           whileInView="visible"

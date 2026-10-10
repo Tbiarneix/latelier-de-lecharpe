@@ -4,6 +4,7 @@ import React, { useEffect, useId, useMemo, useRef, useState, useTransition } fro
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { enGB, es, fr, it } from "date-fns/locale";
+import Link from "next/link";
 import { BadgeCheck } from "lucide-react";
 import { submitReservation, type ReservationPayload } from "@/app/reservation/actions";
 import {
@@ -326,6 +327,13 @@ export default function ReservationForm({ formules, availability }: Props) {
           >
             {pending ? t.sending : t.submitButton}
           </button>
+
+          <p className="text-sm text-blueDark">
+            {t.privacy}{" "}
+            <Link href="/confidentialite" className="underline">
+              {t.privacyLink}
+            </Link>
+          </p>
         </form>
 
         <div className="lg:w-1/3 w-5/6 z-30">
