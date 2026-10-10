@@ -60,15 +60,14 @@ export async function getClosedDays(): Promise<string[]> {
   return rows.map((r) => r.day);
 }
 
-/** URLs publiques des fichiers de carte d'une catégorie, dans l'ordre d'affichage. */
-export async function getMenuImageUrls(
-  category: "brunch" | "diner" | "fiesta",
-): Promise<string[]> {
+export type MenuFile = { url: string; mimeType: string };
+
+/** Fichiers de carte (PDF ou images) d'une catégorie, dans l'ordre d'affichage. */
+export async function getMenuFiles(category: "brunch" | "diner" | "fiesta"): Promise<MenuFile[]> {
   const db = await getDb();
-  const rows = await db
-    .select({ url: schema.menuFiles.url })
+  return db
+    .select({ url: schema.menuFiles.url, mimeType: schema.menuFiles.mimeType })
     .from(schema.menuFiles)
     .where(eq(schema.menuFiles.category, category))
     .orderBy(asc(schema.menuFiles.position), asc(schema.menuFiles.id));
-  return rows.map((r) => r.url);
 }

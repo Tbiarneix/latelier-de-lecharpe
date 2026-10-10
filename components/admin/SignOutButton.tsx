@@ -1,28 +1,24 @@
-'use client'
+"use client";
 
-import { createBrowserClient } from '@supabase/ssr'
-import { useRouter } from 'next/navigation'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import { buttonClass } from "@/components/admin/ui";
 
 export default function SignOutButton() {
-  const router = useRouter()
-
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { db: { schema: 'latelier_de_lecharpe' } }
-  )
+  const router = useRouter();
+  const [pending, setPending] = useState(false);
 
   async function handleSignOut() {
-    await supabase.auth.signOut()
-    router.push('/admin/login')
+    setPending(true);
+    await authClient.signOut();
+    router.push("/admin/login");
+    router.refresh();
   }
 
   return (
-    <button
-      onClick={handleSignOut}
-      className="bg-red-600 text-white px-4 py-2 rounded-xl font-specialElite hover:bg-red-800"
-    >
-      Se déconnecter
+    <button type="button" onClick={handleSignOut} disabled={pending} className={buttonClass.secondary}>
+      {pending ? "Déconnexion…" : "Se déconnecter"}
     </button>
-  )
+  );
 }

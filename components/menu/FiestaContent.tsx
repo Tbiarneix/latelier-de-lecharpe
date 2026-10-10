@@ -1,6 +1,8 @@
 "use client"
 
 import React from "react";
+import MenuFiles from "@/components/menu/MenuFiles";
+import type { MenuFile } from "@/lib/data";
 import { Variants, motion } from "framer-motion";
 
 const imagesVariants: Variants = {
@@ -42,7 +44,7 @@ const imagesVariants: Variants = {
   },
 };
 
-export default function FiestaContent({ images }: { images: string[] }) {
+export default function FiestaContent({ files }: { files: MenuFile[] }) {
   return (
       <div className="w-full flex flex-col justify-center items-center bg-pinkLight text-cream">
         <div className="w-screen lg:w-3/5 flex flex-col md:flex-row justify-center items-center md:space-x-20 space-y-10 md:pr-10 lg:pr-20">
@@ -80,18 +82,7 @@ export default function FiestaContent({ images }: { images: string[] }) {
         </div>
 
         <div className="lg:w-3/5 w-11/12 flex flex-col items-center justify-center py-20 space-y-6">
-          {images.length > 0 ? (
-            images.map((url, index) => (
-              <img
-                key={index}
-                src={url}
-                className="w-full object-fill"
-                title={`Menu fiesta ${index + 1}`}
-              />
-            ))
-          ) : (
-            <p className="text-center font-specialElite">Aucun menu disponible pour le moment.</p>
-          )}
+          <MenuFiles files={files} label="fiesta" />
         </div>
       </div>
   );

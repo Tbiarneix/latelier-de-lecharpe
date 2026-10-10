@@ -51,7 +51,7 @@ Développeur : front Next/TypeScript, spécialisé accessibilité (RGAA/WCAG).
    Tables Better Auth écrites à la main (user/session/account/verification) : à comparer avec
    `npx @better-auth/cli generate` à l'étape 3. Pages publiques en `force-dynamic` (à revoir avec du
    cache + revalidation à l'étape 3, quand l'admin écrira).
-3. **Back-office (parité)** — Better Auth, /admin protégé (proxy + vérif serveur), upload PDF sur
+3. **Back-office** — FAIT (branche `feat/back-office`, empilée). Better Auth, /admin protégé (proxy + vérif serveur), upload PDF sur
    Vercel Blob, horaires + congés + formules + jours complets. Mobile-first, accessible, en français.
 4. **Réservation** — Server Action + Zod + honeypot. Enregistrer d'abord (pending), puis mails
    (restaurant + accusé) ; un échec de mail ne perd jamais la réservation (mail_status + bouton
@@ -66,6 +66,21 @@ Développeur : front Next/TypeScript, spécialisé accessibilité (RGAA/WCAG).
    mentions RGPD.
 7. **Bascule** — variables de prod Vercel, migration Neon, import des données, SMTP IONOS, recette,
    TTL DNS abaissé puis bascule chez IONOS (noter les MX existants avant).
+
+## Back-office (étape 3)
+- Sections : `/admin` (accueil), `cartes`, `horaires`, `conges`, `jours-complets`, `formules`, `compte`
+  (`app/admin/(panel)/…`). Server Actions + Zod ; formulaires via `useAdminForm` (`components/admin/ui.tsx`).
+- Auth : `lib/auth.ts` (Better Auth, pas d'inscription, rate limit en base), `lib/admin-session.ts`
+  (`requireAdmin()` à appeler dans CHAQUE page/action/route admin), `proxy.ts` (filtre optimiste par cookie).
+- Comptes : `npm run admin:create -- email "Nom"` (crée ou réinitialise le mot de passe). Pas d'email de reset
+  avant l'étape 4 (SMTP).
+- Cartes : envoi direct navigateur → Vercel Blob (`/api/admin/blob`), puis `registerMenuFile`. Sans
+  `BLOB_READ_WRITE_TOKEN` hors prod : repli `public/uploads` (`/api/admin/menu-upload`). Le site public affiche
+  images et PDF (`components/menu/MenuFiles.tsx`).
+- Piège : `changePassword({ revokeOtherSessions: true })` remplace le jeton courant et casse le rendu qui suit
+  l'action ; on appelle `revokeOtherSessions` séparément.
+- Pages publiques toujours en `force-dynamic` (choix : les modifications admin sont visibles tout de suite).
+- Variables : `DATABASE_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `BLOB_READ_WRITE_TOKEN`.
 
 ## Base de données (dev)
 - `db/schema.ts` (Drizzle), migrations SQL versionnées dans `drizzle/` (`npm run db:generate` après
