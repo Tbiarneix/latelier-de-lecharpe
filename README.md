@@ -8,10 +8,9 @@ Site du restaurant L'Atelier de l'Écharpe (Toulouse) : vitrine, cartes, réserv
 
 ```bash
 npm install
-cp .env.example .env.local        # les valeurs vides conviennent en local
+cp .env.example .env.local        # puis y mettre BETTER_AUTH_SECRET (n'importe quelle chaîne de 32+ caractères en local)
 npm run db:migrate && npm run db:seed
-BETTER_AUTH_SECRET=dev-secret-dev-secret-dev-secret-0123 \
-  npm run admin:create -- moi@exemple.fr "Mon Nom"   # crée un compte admin (mot de passe demandé)
+npm run admin:create -- moi@exemple.fr "Mon Nom"   # crée un compte admin (mot de passe demandé)
 npm run dev                       # http://localhost:3000 — admin : /admin
 ```
 
@@ -20,7 +19,7 @@ En local, sans configuration :
 - les cartes envoyées sont écrites dans `public/uploads` ;
 - les **mails s'affichent dans la console** (lien `/r/<jeton>` inclus).
 
-Définir `BETTER_AUTH_SECRET` dans `.env.local` pour que l'authentification fonctionne.
+Les autres variables (Neon, Blob, SMTP) ne sont nécessaires qu'en production.
 
 ## Scripts
 
