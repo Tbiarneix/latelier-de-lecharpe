@@ -44,7 +44,8 @@ const textVariantsTop: Variants = {
     y: 0,
     opacity: 1,
     transition: {
-      type: "linear",
+      type: "tween",
+      ease: "linear",
       duration: 1,
       delay: 0.5,
     },

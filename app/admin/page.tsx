@@ -20,7 +20,7 @@ export const revalidate = 0;
 export default async function AdminPage() {
   console.log("Admin page loaded!");
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

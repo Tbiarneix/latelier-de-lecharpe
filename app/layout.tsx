@@ -1,16 +1,60 @@
 import "./globals.css";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import Head from "next/head";
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics } from "@vercel/analytics/react"
+import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
-const inter = Inter({ subsets: ["latin"] });
+// Inter auto-hébergée (aucun appel à Google Fonts, ni au build ni chez le visiteur).
+const inter = localFont({
+  src: [
+    {
+      path: "../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+    {
+      path: "../node_modules/@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+  ],
+  display: "swap",
+});
+
+const description =
+  "Ben & Gilles sont ravis de vous accueillir à l'Atelier de l'Echarpe, nouveau lieu de fiesta à Toulouse, 8 rue de l'écharpe 31000 Toulouse, tout près de la place Esquirol, de l'hotel d'Assezat et du Pont-Neuf.";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.latelierdelecharpe.fr"),
   title: "L'atelier de l'écharpe",
-  description: "Ben & Gilles sont ravis de vous accueillir à l'Atelier de l'Echarpe, nouveau lieu de fiesta à Toulouse, 8 rue de l'écharpe 31000 Toulouse, tout près de la place Esquirol, de l'hotel d'Assezat et du Pont-Neuf.",
+  description,
+  keywords: [
+    "Bar",
+    "Bar à cocktails",
+    "Cocktails",
+    "Vin",
+    "Bar à vin",
+    "Restaurant Toulouse",
+    "Restaurant",
+    "Toulouse",
+    "Cocktails Toulouse",
+    "Bar à cocktails Toulouse",
+    "Bar à vin Toulouse",
+  ],
   icons: "/img/logo/logo-red.png",
+  openGraph: {
+    title: "L'atelier de l'écharpe",
+    description,
+    url: "/",
+    images: ["/img/info/resume-page-cream.jpg"],
+    locale: "fr_FR",
+    type: "website",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -20,20 +64,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <Head>
-        <title>L'atelier de l'écharpe</title>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        ></meta>
-        <meta name="keywords" content="Bar, Bar à cocktails, Cocktails, Vin, Bar à vin, Restaurant Toulouse, Restaurant, Toulouse, Cocktails Toulouse, Bar à cocktails Toulouse, Bar à vin Toulouse" />
-        <meta name="description" content="Ben & Gilles sont ravis de vous accueillir à l'Atelier de l'Echarpe, nouveau lieu de fiesta à Toulouse, 8 rue de l'écharpe 31000 Toulouse, tout près de la place Esquirol, de l'hotel d'Assezat et du Pont-Neuf." />
-        <meta property="og:title" content="L'atelier de l'écharpe" />
-        <meta property="og:image" content="/img/info/resume-page-cream.jpg" />
-        <meta property="og:url" content="http://www.latelierdelecharpe.fr/" />
-        <meta charSet="utf-8"></meta>
-        <link rel="icon" href="/img/logo/logo-red.png"></link>
-      </Head>
       <body className={inter.className}>
         {children}
         <SpeedInsights />

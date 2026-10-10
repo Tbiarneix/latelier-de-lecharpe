@@ -1,11 +1,6 @@
-# Fichier robots.txt pour React
-
-# Autorise tous les moteurs de recherche à explorer toutes les pages
 User-agent: *
-Disallow: /reservation-autoreply/
+Disallow: /admin
+Disallow: /auth/
+Disallow: /reservation-autoreply
 
-# Autorise les moteurs de recherche à indexer la version canonique de la page
-Allow: /$
-
-# Sitemap : Indique à Google où trouver le fichier sitemap.xml
-Sitemap: http://www.laterlierdelecharpe.fr/sitemap.xml
+Sitemap: https://www.latelierdelecharpe.fr/sitemap.xml
