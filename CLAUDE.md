@@ -64,7 +64,7 @@ Développeur : front Next/TypeScript, spécialisé accessibilité (RGAA/WCAG).
 6. **Accessibilité, SEO, RGPD** — FAIT (branche `feat/accessibilite-rgpd`, empilée). Passe RGAA (h1 découpé en h1/h2/h3 sur l'accueil, sélecteur de langue
    en emoji sans libellé ni `lang`, formulaires, focus, contrastes), purge des réservations > 12 mois,
    mentions RGPD.
-7. **Bascule** — variables de prod Vercel, migration Neon, import des données, SMTP IONOS, recette,
+7. **Bascule** — PRÉPARÉE dans le dépôt (branche `feat/bascule`) : `docs/mise-en-production.md`, `npm run check:env` (bloque un déploiement de production incomplet), `vercel-build` = check:env + db:migrate + next build. Les actions sur comptes/DNS restent à faire avec la cliente. Plan initial : variables de prod Vercel, migration Neon, import des données, SMTP IONOS, recette,
    TTL DNS abaissé puis bascule chez IONOS (noter les MX existants avant).
 
 ## Back-office (étape 3)
