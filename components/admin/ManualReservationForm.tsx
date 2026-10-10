@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createManualReservation } from "@/app/admin/(panel)/reservations/actions";
 import { Card, CheckboxField, Field, FormMessage, inputClass, SubmitButton, useAdminForm } from "@/components/admin/ui";
 
@@ -9,14 +9,9 @@ export default function ManualReservationForm({ today }: { today: string }) {
   const [hasEmail, setHasEmail] = useState(false);
   const errors = state?.errors ?? {};
 
-  // Le formulaire est vidé après un ajout : les options liées à l'email disparaissent aussi.
-  useEffect(() => {
-    if (state?.ok) setHasEmail(false);
-  }, [state]);
-
   return (
     <Card>
-      <form ref={formRef} onSubmit={onSubmit} noValidate className="flex max-w-xl flex-col gap-4">
+      <form ref={formRef} onSubmit={onSubmit} onReset={() => setHasEmail(false)} noValidate className="flex max-w-xl flex-col gap-4">
         <Field label="Nom" name="name" type="text" autoComplete="off" error={errors.name} />
         <Field label="Téléphone" name="phone" type="tel" autoComplete="off" error={errors.phone} />
         <Field
