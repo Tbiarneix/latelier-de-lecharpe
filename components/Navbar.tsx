@@ -5,7 +5,7 @@ import React from "react";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
+  SheetTitle,
   SheetHeader,
   SheetTrigger,
 } from "./ui/sheet";
@@ -88,14 +88,15 @@ function Navbar() {
 
       <div className="lg:hidden fixed top-6 z-50 flex justify-between w-full px-6">
         <Sheet key="left">
-          <SheetTrigger className="overflow-hidden rounded-full shadow flex justify-center items-center h-10 w-10">
+          <SheetTrigger aria-label="Ouvrir le menu" className="overflow-hidden rounded-full shadow flex justify-center items-center h-10 w-10">
             {/* <img src="/hamburger-menu.png" alt="hamburger menu icon" /> */}
-            <Menu />
+            <Menu aria-hidden="true" />
           </SheetTrigger>
-          <SheetContent className="bg-[#002E6D]">
+          <SheetContent aria-describedby={undefined} className="bg-[#002E6D]">
             <img src="/img/deco/img-rino-pink-1.jpg" alt="Background menu" className="-z-10 opacity-80 h-screen w-screen absolute transform scale-x-[-1]" /> 
             <SheetHeader>
-              <SheetDescription className="flex flex-col p-6">
+              <SheetTitle className="sr-only">Menu</SheetTitle>
+              <nav aria-label="Menu principal" className="flex flex-col p-6">
                 {links.map((items) => (
                   <a
                     key={items.label}
@@ -115,7 +116,7 @@ function Navbar() {
                     réservation
                   </h3>
                 </a>
-              </SheetDescription>
+              </nav>
             </SheetHeader>
           </SheetContent>
         </Sheet>
