@@ -1,4 +1,5 @@
 import {
+  bigint,
   boolean,
   date,
   index,
@@ -82,6 +83,8 @@ export const menuFiles = pgTable(
     url: text("url").notNull(),
     /** Chemin dans le stockage (sert à supprimer le fichier). */
     pathname: text("pathname").notNull(),
+    /** Type MIME (image/jpeg, application/pdf…) : choisit le rendu côté site. */
+    mimeType: text("mime_type").notNull().default("image/jpeg"),
     position: integer("position").notNull().default(0),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
@@ -198,3 +201,11 @@ export const verification = pgTable(
   },
   (t) => [index("verification_identifier_idx").on(t.identifier)],
 );
+
+/** Limitation de débit (tentatives de connexion) : stockée en base car le serverless n'a pas de mémoire partagée. */
+export const rateLimit = pgTable("rate_limit", {
+  id: text("id").primaryKey(),
+  key: text("key").notNull(),
+  count: integer("count").notNull(),
+  lastRequest: bigint("last_request", { mode: "number" }).notNull(),
+});
