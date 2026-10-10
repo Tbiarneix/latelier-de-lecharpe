@@ -53,7 +53,7 @@ Développeur : front Next/TypeScript, spécialisé accessibilité (RGAA/WCAG).
    cache + revalidation à l'étape 3, quand l'admin écrira).
 3. **Back-office** — FAIT (branche `feat/back-office`, empilée). Better Auth, /admin protégé (proxy + vérif serveur), upload PDF sur
    Vercel Blob, horaires + congés + formules + jours complets. Mobile-first, accessible, en français.
-4. **Réservation** — Server Action + Zod + honeypot. Enregistrer d'abord (pending), puis mails
+4. **Réservation** — FAIT (branche `feat/reservation`, empilée). Server Action + Zod + honeypot. Enregistrer d'abord (pending), puis mails
    (restaurant + accusé) ; un échec de mail ne perd jamais la réservation (mail_status + bouton
    « renvoyer »). Le mail lie `/r/[token]` (aucune donnée perso dans l'URL) avec VALIDER / REFUSER
    par bouton POST / Server Action, **jamais** par lien GET (scanners antivirus). Idempotence :
@@ -81,6 +81,22 @@ Développeur : front Next/TypeScript, spécialisé accessibilité (RGAA/WCAG).
   l'action ; on appelle `revokeOtherSessions` séparément.
 - Pages publiques toujours en `force-dynamic` (choix : les modifications admin sont visibles tout de suite).
 - Variables : `DATABASE_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `BLOB_READ_WRITE_TOKEN`.
+
+## Réservation (étape 4)
+- Formulaire : `components/reservation/` (4 langues FR/EN/ES/IT, labels associés, `<select>` de créneaux,
+  radios, honeypot `website`). Règles de créneaux partagées navigateur/serveur : `lib/reservations/availability.ts`
+  (heure de Paris, fin des demandes du jour à 16h, fenêtres midi 12-14h / soir 19-23h, pas de 30 min).
+- `app/reservation/actions.ts` : Zod, revalidation serveur du créneau, formule relue en base, frein anti-spam
+  (3 demandes/h/email), réservation ≥ 14 personnes → groupe avec formule obligatoire (si des formules sont actives).
+  La réservation est enregistrée AVANT les mails ; échec → `mail_status` partial/failed, jamais fatal.
+- Mails : `lib/mail.ts` (`sendMail`, SMTP IONOS ; log console hors prod sans SMTP), gabarits dans
+  `lib/reservations/mail-templates.ts` (FR repris des mails EmailJS, EN/ES/IT traduits ; données saisies
+  échappées). Restaurant : toujours FR, lien `/r/[token]` (GET sans effet).
+- `/r/[token]` : décision par boutons (Server Action POST), `UPDATE … WHERE status='pending'` atomique,
+  « Déjà confirmée le … ». Noindex, `referrer: no-referrer`.
+- Admin : `/admin/reservations` (liste minimale + « Renvoyer les mails »), étoffée à l'étape 5.
+- Variables : `SITE_URL`, `SMTP_HOST/PORT/USER/PASSWORD/FROM`, `MAIL_TO_RESTAURANT`.
+- EmailJS et l'ancienne page `/reservation-autoreply` supprimés.
 
 ## Base de données (dev)
 - `db/schema.ts` (Drizzle), migrations SQL versionnées dans `drizzle/` (`npm run db:generate` après

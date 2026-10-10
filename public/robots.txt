@@ -1,6 +1,6 @@
 User-agent: *
 Disallow: /admin
-Disallow: /auth/
-Disallow: /reservation-autoreply
+Disallow: /api/
+Disallow: /r/
 
 Sitemap: https://www.latelierdelecharpe.fr/sitemap.xml
