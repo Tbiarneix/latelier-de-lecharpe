@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import CustomHeroBanner from "@/components/CustomHeroBanner";
-import SiteShell from "@/components/SiteShell";
 import BrunchContent from "@/components/menu/BrunchContent";
 import { getMenuFiles } from "@/lib/data";
 
@@ -18,9 +17,9 @@ export default async function BrunchPage() {
   const files = await getMenuFiles("brunch");
 
   return (
-    <SiteShell>
+    <>
       <CustomHeroBanner title="brunch" colorText="#271C82" colorBG="#FBE9D5" />
       <BrunchContent files={files} />
-    </SiteShell>
+    </>
   );
 }

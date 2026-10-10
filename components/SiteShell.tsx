@@ -1,14 +1,12 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
-/** Structure commune des pages publiques : lien d'évitement, navigation, contenu principal, pied de page. */
-export default function SiteShell({
-  children,
-  mainClassName,
-}: {
-  children: React.ReactNode;
-  mainClassName?: string;
-}) {
+/**
+ * Structure commune des pages publiques : lien d'évitement, navigation, contenu principal, pied de page.
+ * Utilisée par le layout app/(site)/layout.tsx : la navigation n'est donc pas remontée (et son animation
+ * pas rejouée) quand on change de page.
+ */
+export default function SiteShell({ children }: { children: React.ReactNode }) {
   return (
     <>
       <a
@@ -18,7 +16,7 @@ export default function SiteShell({
         Aller au contenu
       </a>
       <Navbar />
-      <main id="contenu" tabIndex={-1} className={`focus:outline-none ${mainClassName ?? ""}`}>
+      <main id="contenu" tabIndex={-1} className="focus:outline-none">
         {children}
       </main>
       <Footer />

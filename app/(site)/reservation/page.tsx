@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import ReservationForm from "@/components/reservation/ReservationForm";
 import CustomHeroBanner from "@/components/CustomHeroBanner";
-import SiteShell from "@/components/SiteShell";
 import { getActiveFormules } from "@/lib/data";
 import { loadAvailability } from "@/lib/reservations/availability-server";
 
@@ -19,9 +18,9 @@ export default async function ReservationPage() {
   const [formules, availability] = await Promise.all([getActiveFormules(), loadAvailability()]);
 
   return (
-    <SiteShell>
+    <>
       <CustomHeroBanner title="réservation" colorText="#FBE9D5" colorBG="#A40001" />
       <ReservationForm formules={formules} availability={availability} />
-    </SiteShell>
+    </>
   );
 }

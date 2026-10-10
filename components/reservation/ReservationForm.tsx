@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { enGB, es, fr, it } from "date-fns/locale";
 import Link from "next/link";
 import { BadgeCheck } from "lucide-react";
-import { submitReservation, type ReservationPayload } from "@/app/reservation/actions";
+import { submitReservation, type ReservationPayload } from "@/app/(site)/reservation/actions";
 import {
   fromIsoDate,
   getAvailableTimes,

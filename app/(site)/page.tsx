@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import HeroBanner from "@/components/HeroBanner";
 import MainPage from "@/components/MainPage";
-import SiteShell from "@/components/SiteShell";
 import PopUpHappyHour from "@/components/popups/PopUpHappyHour";
 import { getOpeningHours } from "@/lib/data";
 import { LEGAL } from "@/lib/legal";
@@ -46,7 +45,7 @@ export default async function Home() {
       addressLocality: "Toulouse",
       addressCountry: "FR",
     },
-    geo: { "@type": "GeoCoordinates", latitude: 43.6020582, longitude: 1.4458477 },
+    geo: { "@type": "GeoCoordinates", latitude: 43.6003216, longitude: 1.4409941 },
     hasMenu: `${siteUrl()}/diner`,
     acceptsReservations: `${siteUrl()}/reservation`,
     sameAs: ["https://www.instagram.com/latelierdelecharpe_/"],
@@ -54,7 +53,7 @@ export default async function Home() {
   };
 
   return (
-    <SiteShell mainClassName="flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <script
         type="application/ld+json"
         // Le JSON est généré côté serveur à partir de nos propres données ; « < » est échappé par sécurité.
@@ -63,6 +62,6 @@ export default async function Home() {
       <HeroBanner />
       <PopUpHappyHour />
       <MainPage />
-    </SiteShell>
+    </div>
   );
 }

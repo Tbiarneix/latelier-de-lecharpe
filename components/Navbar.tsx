@@ -42,7 +42,8 @@ function Navbar() {
         className="fixed w-full h-16 backdrop-blur justify-between items-center text-white px-8 z-50 bg-blueLight hidden lg:flex"
       >
         <Link href="/" className={`w-40 ${focus}`} aria-label="L'Atelier de l'Écharpe, accueil">
-          <img src="/img/logo/logo-red.png" alt="" />
+          {/* Logo rouge passé en blanc : le rouge sur le bandeau bleu ne contraste pas assez (1,6:1). */}
+          <img src="/img/logo/logo-red.png" alt="" className="brightness-0 invert" />
         </Link>
         <ul className="flex justify-center space-x-12">
           {links.map((link) => (
@@ -60,7 +61,7 @@ function Navbar() {
         <Link
           href="/reservation"
           aria-current={current("/reservation")}
-          className={`px-3 py-1 bg-white/5 hover:bg-redWine leading-none duration-200 text-white hover:text-blueLight text-2xl tracking-wide font-specialElite ${focus}`}
+          className={`px-5 py-2 bg-white/5 hover:bg-redWine leading-none duration-200 text-white text-2xl tracking-wide font-specialElite ${focus}`}
         >
           réservation
         </Link>

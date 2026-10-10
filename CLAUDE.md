@@ -107,7 +107,8 @@ Développeur : front Next/TypeScript, spécialisé accessibilité (RGAA/WCAG).
 - Transitions gardées en SQL (`WHERE status IN (...)`) dans `lib/reservations/service.ts`.
 
 ## Accessibilité, SEO, RGPD (étape 6)
-- Gabarit public `components/SiteShell.tsx` (lien d'évitement, `<main id="contenu">`) ; `MotionConfig reducedMotion="user"`
+- Pages publiques sous `app/(site)/` : `layout.tsx` = `components/SiteShell.tsx` (lien d'évitement, Navbar, `<main id="contenu">`, Footer), partagé donc NON remonté à la navigation (l'animation de la Navbar ne se rejoue pas). Ne pas réimporter SiteShell dans les pages.
+- Gabarit public (ancienne description) ; `MotionConfig reducedMotion="user"`
   (`components/Providers.tsx`) ; focus visible global (`globals.css`). Un seul h1 par page (accueil : « L'ATELIER DE L'ÉCHARPE »).
 - Popup Happy hour = Radix Dialog (focus piégé, Échap, ne revient pas dans la session) ; formules = bouton `aria-expanded` ;
   infobulles de paiement remplacées par du texte ; contrastes corrigés (titre contact en rouge, formules en bleu foncé).
@@ -137,3 +138,8 @@ Développeur : front Next/TypeScript, spécialisé accessibilité (RGAA/WCAG).
 
 ## Commandes
 - `npm run dev` / `npm run build` / `npm run lint` (ESLint 9 flat config ; dette lint préexistante).
+
+## Charte (ajustements recette)
+- Jaune `mustard` = `#F0BC2E` (7,6:1 sur bleu clair, 8,6:1 avec texte bleu foncé). Logo du bandeau : rouge passé en blanc par filtre CSS (le rouge sur bleu = 1,6:1).
+- Carte Google : embed fourni par la cliente dans `ContactContent.tsx` ; coordonnées du JSON-LD (accueil) alignées : 43.6003216, 1.4409941.
+- Crédit du pied de page : Thomas Biarneix (thomasbiarneix.com), aussi dans `lib/legal.ts`.

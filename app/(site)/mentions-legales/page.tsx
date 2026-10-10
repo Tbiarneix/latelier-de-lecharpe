@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import CustomHeroBanner from "@/components/CustomHeroBanner";
-import SiteShell from "@/components/SiteShell";
 import { LEGAL, LEGAL_MISSING } from "@/lib/legal";
 
 export const metadata: Metadata = {
@@ -18,7 +17,7 @@ export default function MentionsLegalesPage() {
   }
 
   return (
-    <SiteShell>
+    <>
       <CustomHeroBanner title="mentions légales" colorText="#FBE9D5" colorBG="#A40001" />
       <div className="mx-auto max-w-3xl px-6 py-12 text-blueDark [&_h2]:mb-3 [&_h2]:mt-10 [&_h2]:font-specialElite [&_h2]:text-2xl [&_p]:mb-3 [&_a]:underline">
         <h2 className="!mt-0">Éditeur du site</h2>
@@ -74,6 +73,6 @@ export default function MentionsLegalesPage() {
           Le traitement de vos données est décrit dans notre <a href="/confidentialite">politique de confidentialité</a>.
         </p>
       </div>
-    </SiteShell>
+    </>
   );
 }

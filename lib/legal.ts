@@ -16,7 +16,7 @@ export const LEGAL = {
   /** Nom du directeur de la publication. */
   publisher: "",
   /** Conception du site. */
-  designer: "Pablo Ortega",
+  designer: "Thomas Biarneix",
 };
 
 export const LEGAL_MISSING = (["legalForm", "siret", "publisher"] as const).filter((k) => !LEGAL[k]);

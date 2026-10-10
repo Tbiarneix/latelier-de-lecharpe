@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import CustomHeroBanner from "@/components/CustomHeroBanner";
-import SiteShell from "@/components/SiteShell";
 import FiestaContent from "@/components/menu/FiestaContent";
 import { getMenuFiles } from "@/lib/data";
 
@@ -18,9 +17,9 @@ export default async function FiestaPage() {
   const files = await getMenuFiles("fiesta");
 
   return (
-    <SiteShell>
+    <>
       <CustomHeroBanner title="fiesta" colorText="#FBE9D5" colorBG="#C71D7A" />
       <FiestaContent files={files} />
-    </SiteShell>
+    </>
   );
 }

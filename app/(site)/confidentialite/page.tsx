@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import CustomHeroBanner from "@/components/CustomHeroBanner";
-import SiteShell from "@/components/SiteShell";
 import { LEGAL } from "@/lib/legal";
 import { RETENTION_MONTHS } from "@/lib/reservations/purge";
 
@@ -15,7 +14,7 @@ export const dynamic = "force-dynamic";
 
 export default function ConfidentialitePage() {
   return (
-    <SiteShell>
+    <>
       <CustomHeroBanner title="confidentialité" colorText="#FBE9D5" colorBG="#A40001" />
       <div className="mx-auto max-w-3xl px-6 py-12 text-blueDark [&_h2]:mb-3 [&_h2]:mt-10 [&_h2]:font-specialElite [&_h2]:text-2xl [&_p]:mb-3 [&_a]:underline [&_ul]:mb-3 [&_ul]:list-disc [&_ul]:pl-6">
         <h2 className="!mt-0">Qui est responsable de vos données ?</h2>
@@ -71,6 +70,6 @@ export default function ConfidentialitePage() {
           (<a href="https://www.cnil.fr" rel="noopener noreferrer">cnil.fr</a>).
         </p>
       </div>
-    </SiteShell>
+    </>
   );
 }

@@ -20,7 +20,7 @@ async function Footer() {
           <h2 className="font-specialElite text-4xl mb-3">ADRESSE</h2>
           <a
             className="flex flex-col items-center justify-center text-center hover:underline"
-            href="https://www.google.fr/maps/place/8+Rue+de+l'%C3%89charpe,+31000+Toulouse/@43.6020582,1.4432728,676m/data=!3m2!1e3!4b1!4m6!3m5!1s0x12aebc9daaafffff:0x6b0c27a5efb0ecff!8m2!3d43.6020582!4d1.4458477!16s%2Fg%2F11l_4l0gq7?entry=ttu&g_ep=EgoyMDI1MTExNi4wIKXMDSoASAFQAw%3D%3D"
+            href="https://www.google.com/maps/search/?api=1&query=L%27Atelier+de+l%27%C3%A9charpe+8+rue+de+l%27%C3%89charpe+Toulouse"
           >
             8 rue de l'Écharpe
             <br />
@@ -60,8 +60,8 @@ async function Footer() {
         <Link href="/confidentialite" className="underline hover:no-underline">
           Politique de confidentialité
         </Link>
-        <a href="https://portfolio-pablo-teal.vercel.app/" className="underline hover:no-underline">
-          © This is a PABLO ORTEGA creation - 2025
+        <a href="https://thomasbiarneix.com" className="underline hover:no-underline">
+          © Site créé par Thomas Biarneix - 2026
         </a>
       </div>
     </footer>

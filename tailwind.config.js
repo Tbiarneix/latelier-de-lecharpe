@@ -47,7 +47,7 @@ module.exports = {
         blueDark: '#201C5C',
         pinkLight: '#C71D7A',
         redWine: '#A40001',
-        mustard: '#C89D4C',
+        mustard: '#F0BC2E',
       },
       borderRadius: {
         lg: "var(--radius)",

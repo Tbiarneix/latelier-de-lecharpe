@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import ContactContent from "@/components/ContactContent";
 import CustomHeroBanner from "@/components/CustomHeroBanner";
 import HoursList from "@/components/HoursList";
-import SiteShell from "@/components/SiteShell";
 import { getOpeningHours } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -19,11 +18,11 @@ export default async function ContactPage() {
   const hours = await getOpeningHours();
 
   return (
-    <SiteShell>
+    <>
       <CustomHeroBanner title="contact" colorText="#A40001" colorBG="#FBE9D5" />
       <ContactContent
         hoursList={<HoursList hours={hours} className="flex flex-col items-center lg:items-end justify-center space-y-2" />}
       />
-    </SiteShell>
+    </>
   );
 }
