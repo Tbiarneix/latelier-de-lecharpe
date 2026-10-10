@@ -48,6 +48,18 @@ rm .env.local                             # ne pas laisser les secrets de produc
 - Les cartes (PDF/images) s'ajoutent ensuite dans `/admin/cartes`.
 - Se connecter sur `/admin/login` et vérifier chaque section.
 
+## 2 bis. Recette sans messagerie ni CLI (temporaire)
+
+Pour tester le site avant d'avoir la boîte IONOS, ou sans installer le CLI Vercel :
+
+| Variable (Production) | Effet |
+|---|---|
+| `MAIL_DISABLED=true` | aucun mail n'est envoyé : ils sont écrits dans les **logs Vercel** (*Logs*, recherche `[mail:dev]`) avec le lien `/r/…`. Les variables `SMTP_*` et `MAIL_TO_RESTAURANT` ne sont plus exigées. Les réservations sont affichées dans `/admin/reservations` (bouton « Ouvrir la demande »). |
+| `BOOTSTRAP_ADMIN_EMAIL`, `BOOTSTRAP_ADMIN_PASSWORD` (et `BOOTSTRAP_ADMIN_NAME`) | au déploiement, crée le compte admin **s'il n'existe pas** (ne modifie jamais un compte existant). |
+| `BOOTSTRAP_SEED=true` | au déploiement, importe `db/seed-data.json` **si la base est vide**. |
+
+Garde-fous : `check:env` **refuse** `MAIL_DISABLED=true` dès que `SITE_URL`/`BETTER_AUTH_URL` contiennent `latelierdelecharpe.fr`. Après l'amorçage, **supprimer** les variables `BOOTSTRAP_*` (le mot de passe y est stocké) et changer le mot de passe dans `/admin/compte`. Avant la bascule : supprimer `MAIL_DISABLED` et renseigner les variables SMTP (section suivante).
+
 ## 3. Messagerie (IONOS)
 
 - [ ] Boîte `reservations@latelierdelecharpe.fr` créée dans IONOS (Emails & Office).

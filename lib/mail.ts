@@ -11,6 +11,14 @@ export type Mail = {
 
 export type MailResult = { ok: true; dev?: boolean } | { ok: false; error: string };
 
+/**
+ * Mode recette : les mails ne partent pas, ils sont écrits dans les logs (lien /r/… compris).
+ * Refusé par `check:env` sur le vrai domaine.
+ */
+export function mailDisabled() {
+  return process.env.MAIL_DISABLED === "true";
+}
+
 function smtpConfigured() {
   return Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASSWORD);
 }
@@ -21,8 +29,8 @@ function smtpConfigured() {
  * Hors production et sans SMTP configuré, le mail est simplement affiché dans la console.
  */
 export async function sendMail(mail: Mail): Promise<MailResult> {
-  if (!smtpConfigured()) {
-    if (process.env.NODE_ENV === "production") {
+  if (mailDisabled() || !smtpConfigured()) {
+    if (!mailDisabled() && process.env.NODE_ENV === "production") {
       return { ok: false, error: "SMTP non configuré (SMTP_HOST, SMTP_USER, SMTP_PASSWORD)." };
     }
     console.log(`\n[mail:dev] À : ${mail.to}\n[mail:dev] Objet : ${mail.subject}\n${mail.text}\n`);
@@ -56,5 +64,6 @@ export async function sendMail(mail: Mail): Promise<MailResult> {
 
 /** Destinataire des demandes de réservation (boîte du restaurant). */
 export function restaurantAddress(): string | null {
-  return process.env.MAIL_TO_RESTAURANT ?? null;
+  // En mode recette, aucune adresse réelle n'est nécessaire : le mail n'est de toute façon pas envoyé.
+  return process.env.MAIL_TO_RESTAURANT ?? (mailDisabled() ? "restaurant@recette.invalid" : null);
 }
