@@ -66,17 +66,16 @@ export default function ContactContent({ hoursList }: { hoursList: React.ReactNo
           </div>
         </div>
 
-        <div className="lg:w-1/2 flex items-center justify-center lg:h-[750px] h-[500px] overflow-hidden">
+        {/* Mêmes marges que la colonne de gauche (lg:pl-8 / lg:py-8) : la carte suit sa hauteur et respire de tous côtés. */}
+        <div className="lg:w-1/2 flex px-6 pb-8 lg:p-8 lg:pl-0">
           <iframe
             title="Plan d'accès : L'Atelier de l'Écharpe, 8 rue de l'Écharpe, Toulouse"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d859.6416101680815!2d1.440994128565754!3d43.600321598186525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12aebb62d0929fbf%3A0x558cf6d51666b0f1!2sL'Atelier%20de%20l'%C3%A9charpe!5e1!3m2!1sfr!2sfr!4v1791643177180!5m2!1sfr!2sfr"
-            width="100%"
-            height="100%"
             style={{ border: 0 }}
             allowFullScreen
             loading="lazy"
             referrerPolicy="strict-origin-when-cross-origin"
-            className="rounded-3xl"
+            className="h-[450px] w-full min-h-[450px] rounded-3xl shadow-md lg:h-auto lg:min-h-[500px]"
           />
         </div>
       </div>
