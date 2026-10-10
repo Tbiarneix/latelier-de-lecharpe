@@ -2,12 +2,12 @@ import type { MetadataRoute } from "next";
 
 const BASE_URL = "https://www.latelierdelecharpe.fr";
 
-const routes = ["", "/brunch", "/diner", "/fiesta", "/contact", "/reservation"];
+const routes = ["", "/brunch", "/diner", "/fiesta", "/contact", "/reservation", "/mentions-legales", "/confidentialite"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((route) => ({
     url: `${BASE_URL}${route}`,
     changeFrequency: route === "" ? "weekly" : "monthly",
-    priority: route === "" ? 1 : 0.8,
+    priority: route === "" ? 1 : route.startsWith("/m") || route === "/confidentialite" ? 0.2 : 0.8,
   }));
 }

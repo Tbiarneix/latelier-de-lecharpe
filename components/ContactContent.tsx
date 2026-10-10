@@ -1,12 +1,6 @@
 "use client"
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Banknote, CreditCard, Coins, Ticket } from "lucide-react";
+import { Banknote, CreditCard, Coins } from "lucide-react";
 import React from "react";
 
 export default function ContactContent({ hoursList }: { hoursList: React.ReactNode }) {
@@ -16,76 +10,56 @@ export default function ContactContent({ hoursList }: { hoursList: React.ReactNo
 
           <img
             src="/img/logo/logo-red.png"
-            alt="Logo"
+            alt="L'Atelier de l'Écharpe"
             className="w-1/2"
           />
 
           <div className="flex flex-col md:flex-row justify-between space-y-12 md:space-x-10">
             <div className="flex flex-col justify-between items-center space-y-8">
               <div className="text-blueLight font-specialElite flex flex-col space-y-3 items-center lg:items-start justify-center">
-                <h4 className="underline">
+                <p className="underline">
                   <a href="https://www.google.com/maps/dir//8+Rue+de+l'%C3%89charpe+31000+Toulouse/@43.6020582,1.4458477,17z/data=!4m8!4m7!1m0!1m5!1m1!1s0x12aebc9daaafffff:0x6b0c27a5efb0ecff!2m2!1d1.4458477!2d43.6020582?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D">
                     8 rue de l'Écharpe, 31000 Toulouse
                   </a>
-                </h4>
+                </p>
                 <a href="tel:+33534309335">TEL : +33 5 34 30 93 35</a>
                 {/* <a href="tel:">Mobile : +33</a> */}
               </div>
 
               <div className="text-[#002E6D] w-full flex flex-col space-y-3 items-center lg:items-start justify-center">
-                <p>Modes de paiment</p>
-                <div className="flex items-center space-x-10">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="scale-125">
-                          <CreditCard />
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Carte de crédit</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="scale-125">
-                          <Banknote />
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Chèques vacances</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="scale-125">
-                          <Coins />
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Espèces</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
+                <h2>Modes de paiement</h2>
+                <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 lg:justify-start">
+                  <li className="flex items-center gap-2">
+                    <CreditCard aria-hidden="true" /> Carte de crédit
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Banknote aria-hidden="true" /> Chèques vacances
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Coins aria-hidden="true" /> Espèces
+                  </li>
+                </ul>
               </div>
 
               <div className="text-[#002E6D] flex w-full flex-col justify-center items-center lg:items-start space-y-3">
-                <p>Animaux acceptés</p>
-                <p>Accès Internet Wifi</p>
-                <p>🇬🇧 Anglais</p>
-                <p>🇪🇸 Espagnol</p>
+                <h2>Services</h2>
+                <ul className="flex flex-col items-center lg:items-start space-y-1">
+                  <li>Animaux acceptés</li>
+                  <li>Accès Internet Wifi</li>
+                  <li>
+                    <span aria-hidden="true">🇬🇧 </span>
+                    <span lang="fr">Anglais parlé</span>
+                  </li>
+                  <li>
+                    <span aria-hidden="true">🇪🇸 </span>
+                    <span lang="fr">Espagnol parlé</span>
+                  </li>
+                </ul>
               </div>
             </div>
 
             <div className="lg:w-3/4 text-redWine flex flex-col">
-              <h4 className="font-specialElite text-4xl mb-3 text-center">HORAIRES</h4>
+              <h2 className="font-specialElite text-4xl mb-3 text-center">HORAIRES</h2>
 
               {hoursList}
             </div>
@@ -94,7 +68,7 @@ export default function ContactContent({ hoursList }: { hoursList: React.ReactNo
 
         <div className="lg:w-1/2 flex items-center justify-center lg:h-[750px] h-[500px] overflow-hidden">
           <iframe
-              title="Google Map"
+              title="Plan d'accès : 8 rue de l'Écharpe, Toulouse"
               width="100%"
               height="100%"
               style={{ 

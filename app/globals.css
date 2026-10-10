@@ -1,6 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Focus clavier visible partout : le contour reprend la couleur du texte, donc contraste avec son fond. */
+:where(a, button, summary, [role="button"], [tabindex]):focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadeIn {
+    animation: none;
+  }
+}
  
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }

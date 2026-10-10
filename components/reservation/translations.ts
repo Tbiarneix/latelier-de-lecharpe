@@ -26,6 +26,8 @@ export type Translation = {
   legendClosedDay: string;
   legendFullDay: string;
   errorSummary: string;
+  privacy: string;
+  privacyLink: string;
   errors: Record<string, string>;
 };
 
@@ -59,6 +61,8 @@ export const translations: Record<Locale, Translation> = {
     legendClosedDay: "Fermé",
     legendFullDay: "Complet",
     errorSummary: "Le formulaire contient des erreurs. Corrigez les champs signalés.",
+    privacy: "Vos données servent uniquement à traiter votre demande et sont supprimées 12 mois après la date de la réservation.",
+    privacyLink: "Politique de confidentialité",
     errors: {
       required: "Ce champ est obligatoire.",
       tooLong: "Texte trop long.",
@@ -105,6 +109,8 @@ export const translations: Record<Locale, Translation> = {
     legendClosedDay: "Closed",
     legendFullDay: "Full",
     errorSummary: "The form contains errors. Please correct the highlighted fields.",
+    privacy: "Your data is only used to process your request and is deleted 12 months after the reservation date.",
+    privacyLink: "Privacy policy",
     errors: {
       required: "This field is required.",
       tooLong: "Text too long.",
@@ -151,6 +157,8 @@ export const translations: Record<Locale, Translation> = {
     legendClosedDay: "Cerrado",
     legendFullDay: "Completo",
     errorSummary: "El formulario contiene errores. Corrija los campos señalados.",
+    privacy: "Sus datos solo se utilizan para tramitar su solicitud y se eliminan 12 meses después de la fecha de la reserva.",
+    privacyLink: "Política de privacidad",
     errors: {
       required: "Este campo es obligatorio.",
       tooLong: "Texto demasiado largo.",
@@ -197,6 +205,8 @@ export const translations: Record<Locale, Translation> = {
     legendClosedDay: "Chiuso",
     legendFullDay: "Completo",
     errorSummary: "Il modulo contiene errori. Correggi i campi segnalati.",
+    privacy: "I tuoi dati sono utilizzati solo per gestire la richiesta e vengono eliminati 12 mesi dopo la data della prenotazione.",
+    privacyLink: "Informativa sulla privacy",
     errors: {
       required: "Campo obbligatorio.",
       tooLong: "Testo troppo lungo.",

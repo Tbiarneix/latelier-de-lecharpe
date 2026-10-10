@@ -68,15 +68,15 @@ function IntroRestaurant() {
           variants={imagesVariants}
           className="lg:w-1/2 w-5/6 flex flex-col justify-center items-center space-y-8"
         >
-          <h3 className="text-blueDark font-specialElite text-2xl text-center">
+          <h2 className="text-blueDark font-specialElite text-2xl text-center">
             Un lieu, trois ambiances...
-          </h3>
-          <h1 className="text-blueDark font-specialElite text-2xl">
+          </h2>
+          <p className="text-blueDark font-specialElite text-2xl">
             brunch | dîner | night
-          </h1>
-          <article className="text-blueDark text-justify font-specialElite">
-            Ben & Gilles sont ravis de vous accueillir à l'Atelier de l'Echarpe, nouveau lieu de fiesta à Toulouse, 8 rue de l'écharpe 31000 Toulouse, tout près de la place Esquirol, de l'hotel d'Assezat et du Pont-Neuf.
-          </article>
+          </p>
+          <p className="text-blueDark text-justify font-specialElite">
+            Ben &amp; Gilles sont ravis de vous accueillir à l&apos;Atelier de l&apos;Echarpe, nouveau lieu de fiesta à Toulouse, 8 rue de l&apos;écharpe 31000 Toulouse, tout près de la place Esquirol, de l&apos;hotel d&apos;Assezat et du Pont-Neuf.
+          </p>
         </motion.div>
       </div>
     </div>
