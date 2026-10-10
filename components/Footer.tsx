@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { Instagram, Mail, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
+import { InstagramIcon } from "@/components/icons/InstagramIcon";
 import React from "react";
 import { createBrowserClient } from '@supabase/ssr';
 
@@ -99,7 +100,7 @@ function Footer() {
               <a href="tel:+33534309335">+33 5 34 30 93 35</a>
             </li>
             <li className="flex gap-2 mb-3 hover:underline">
-              <Instagram />
+              <InstagramIcon />
               <a href="https://www.instagram.com/latelierdelecharpe_/">@latelierdelecharpe_</a>
             </li>
             <li className="flex gap-2 mb-3 hover:underline"></li>

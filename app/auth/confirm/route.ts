@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   const next = searchParams.get('next') ?? '/admin/set-password'
 
   if (token_hash && type) {
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const response = NextResponse.redirect(new URL(next, request.url))
 
     const supabase = createServerClient(
