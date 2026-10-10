@@ -59,7 +59,7 @@ Développeur : front Next/TypeScript, spécialisé accessibilité (RGAA/WCAG).
    par bouton POST / Server Action, **jamais** par lien GET (scanners antivirus). Idempotence :
    « Déjà confirmée le … ». 4 langues (FR, EN, ES, IT) et textes de mails existants.
    URL de base via variable d'env (plus de `latelier-de-lecharpe.vercel.app` en dur).
-5. **Gestion des réservations (admin)** — « Aujourd'hui / À venir », filtre statut, annuler, modifier,
+5. **Gestion des réservations (admin)** — FAIT (branche `feat/gestion-reservations`, empilée). Cible : « Aujourd'hui / À venir », filtre statut, annuler, modifier,
    ajout manuel (téléphone → confirmée, email facultatif), case « prévenir le client ».
 6. **Accessibilité, SEO, RGPD** — passe RGAA (h1 découpé en h1/h2/h3 sur l'accueil, sélecteur de langue
    en emoji sans libellé ni `lang`, formulaires, focus, contrastes), purge des réservations > 12 mois,
@@ -97,6 +97,14 @@ Développeur : front Next/TypeScript, spécialisé accessibilité (RGAA/WCAG).
 - Admin : `/admin/reservations` (liste minimale + « Renvoyer les mails »), étoffée à l'étape 5.
 - Variables : `SITE_URL`, `SMTP_HOST/PORT/USER/PASSWORD/FROM`, `MAIL_TO_RESTAURANT`.
 - EmailJS et l'ancienne page `/reservation-autoreply` supprimés.
+
+## Gestion des réservations (étape 5)
+- `/admin/reservations?vue=a-traiter|aujourdhui|a-venir|passees&statut=…` (défaut : aujourd'hui, en attente + confirmées) ;
+  `/admin/reservations/nouvelle` (téléphone → confirmée, email facultatif, langue du mail).
+- Actions (`app/admin/(panel)/reservations/actions.ts`) : valider/refuser, annuler, modifier (date, heure,
+  couverts, notes), renvoyer les mails ; case « prévenir le client » (mails `cancelled` / `modified` / `confirmed`).
+  Les modifications de l'équipe ne sont PAS bloquées par horaires/congés/jours complets (exceptions possibles).
+- Transitions gardées en SQL (`WHERE status IN (...)`) dans `lib/reservations/service.ts`.
 
 ## Base de données (dev)
 - `db/schema.ts` (Drizzle), migrations SQL versionnées dans `drizzle/` (`npm run db:generate` après

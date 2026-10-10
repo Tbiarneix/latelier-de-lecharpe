@@ -1,6 +1,6 @@
 import "server-only";
 import { randomBytes } from "node:crypto";
-import { and, eq, gte, sql } from "drizzle-orm";
+import { and, eq, gte, inArray, sql } from "drizzle-orm";
 import { getDb, schema } from "@/db";
 import { restaurantAddress, sendMail, type MailResult } from "@/lib/mail";
 import {
@@ -109,4 +109,56 @@ export async function countRecent(sinceMs: number): Promise<number> {
     .from(schema.reservations)
     .where(gte(schema.reservations.createdAt, new Date(Date.now() - sinceMs)));
   return n;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Gestion depuis l'admin (étape 5)                                          */
+/* -------------------------------------------------------------------------- */
+
+const ACTIVE = ["pending", "confirmed"] as const;
+
+/** Décision prise par l'équipe dans l'admin (même garde « en attente » que la page /r/[token]). */
+export async function decideReservationById(id: number, decision: Decision): Promise<Reservation | null> {
+  const db = await getDb();
+  const now = new Date();
+  const [row] = await db
+    .update(schema.reservations)
+    .set({ status: decision, decidedAt: now, updatedAt: now })
+    .where(and(eq(schema.reservations.id, id), eq(schema.reservations.status, "pending")))
+    .returning();
+  return row ?? null;
+}
+
+/** Annule une réservation en attente ou confirmée. Renvoie null si elle ne l'est plus. */
+export async function cancelReservationById(id: number): Promise<Reservation | null> {
+  const db = await getDb();
+  const now = new Date();
+  const [row] = await db
+    .update(schema.reservations)
+    .set({ status: "cancelled", decidedAt: now, updatedAt: now })
+    .where(and(eq(schema.reservations.id, id), inArray(schema.reservations.status, [...ACTIVE])))
+    .returning();
+  return row ?? null;
+}
+
+export type ReservationPatch = { date: string; time: string; covers: number; notes: string | null };
+
+/** Modifie date, heure, couverts et notes d'une réservation en attente ou confirmée. */
+export async function updateReservationDetails(id: number, patch: ReservationPatch): Promise<Reservation | null> {
+  const db = await getDb();
+  const [current] = await db.select().from(schema.reservations).where(eq(schema.reservations.id, id));
+  if (!current || !ACTIVE.includes(current.status as (typeof ACTIVE)[number])) return null;
+
+  // Un groupe n'a qu'une formule : le nombre de convives suit le nombre de couverts.
+  const formules =
+    current.type === "group" && current.formules?.length === 1
+      ? [{ ...current.formules[0], guests: patch.covers }]
+      : current.formules;
+
+  const [row] = await db
+    .update(schema.reservations)
+    .set({ ...patch, formules, updatedAt: new Date() })
+    .where(and(eq(schema.reservations.id, id), inArray(schema.reservations.status, [...ACTIVE])))
+    .returning();
+  return row ?? null;
 }
