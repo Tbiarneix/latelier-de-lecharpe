@@ -2,6 +2,8 @@
 const nextConfig = {
   // Next génère un AGENTS.md ; on maintient notre propre CLAUDE.md.
   agentRules: false,
+  // PGlite (base locale de dev) charge des fichiers WASM : ne pas le bundler.
+  serverExternalPackages: ["@electric-sql/pglite"],
 }
 
 module.exports = nextConfig

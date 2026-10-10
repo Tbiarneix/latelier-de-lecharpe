@@ -38,15 +38,19 @@ Développeur : front Next/TypeScript, spécialisé accessibilité (RGAA/WCAG).
   pas d'export Supabase prévu (pas d'accès aux clés).
 
 ## Plan (état)
-1. **Mise à jour Next 16 / React 19** — patch appliqué (branche `chore/upgrade-next`) ; vérification
-   visuelle (animations Framer Motion v14, datepicker v9, menu mobile) à finir, puis PR.
+1. **Mise à jour Next 16 / React 19** — FAIT (PR #1, branche `chore/upgrade-next`).
    Note : `next.config.js` désactive `agentRules` (pas d'AGENTS.md généré).
-2. **Données** — schéma Drizzle : opening_hours, holidays, closed_days, formules, menu_files,
+2. **Données** — FAIT (branche `feat/donnees`, empilée sur la PR 1). Schéma Drizzle : opening_hours, holidays, closed_days, formules, menu_files,
    reservations, tables Better Auth. `reservations` : id, status (pending|confirmed|refused|cancelled),
    type (table|group), date, time, covers, name, email, phone, notes, formules (jsonb), locale,
    token (aléatoire, unique), mail_status, created_at, updated_at, decided_at.
    PGlite en dev / Neon en prod, script de seed. Lectures du site public en Server Components
    (fin des « Chargement… »).
+   Choix : mono-restaurant (pas de `restaurant_id`) ; `holidays` (start_date/end_date) et `closed_days`
+   (day) en lignes ; `opening_hours` reste en jsonb (7 jours) ; `menu_files` = url + pathname + position.
+   Tables Better Auth écrites à la main (user/session/account/verification) : à comparer avec
+   `npx @better-auth/cli generate` à l'étape 3. Pages publiques en `force-dynamic` (à revoir avec du
+   cache + revalidation à l'étape 3, quand l'admin écrira).
 3. **Back-office (parité)** — Better Auth, /admin protégé (proxy + vérif serveur), upload PDF sur
    Vercel Blob, horaires + congés + formules + jours complets. Mobile-first, accessible, en français.
 4. **Réservation** — Server Action + Zod + honeypot. Enregistrer d'abord (pending), puis mails
@@ -62,6 +66,16 @@ Développeur : front Next/TypeScript, spécialisé accessibilité (RGAA/WCAG).
    mentions RGPD.
 7. **Bascule** — variables de prod Vercel, migration Neon, import des données, SMTP IONOS, recette,
    TTL DNS abaissé puis bascule chez IONOS (noter les MX existants avant).
+
+## Base de données (dev)
+- `db/schema.ts` (Drizzle), migrations SQL versionnées dans `drizzle/` (`npm run db:generate` après
+  chaque changement de schéma, à committer).
+- `db/connect.ts` : Neon si `DATABASE_URL`, sinon PGlite (`.data/pglite`, migré automatiquement, refusé
+  en production). `db/index.ts` = point d'entrée `server-only` ; `lib/data.ts` = lectures publiques.
+- `npm run db:migrate` (Neon ou PGlite), `db:seed` (depuis `db/seed-data.json`, refuse une base non vide ;
+  `--force` requis sur Neon), `db:reset` (PGlite uniquement). Arrêter `next dev` avant ces commandes
+  (PGlite = un seul processus à la fois).
+- `db/seed-data.json` contient des valeurs d'exemple : y mettre les vraies horaires/formules.
 
 ## Commandes
 - `npm run dev` / `npm run build` / `npm run lint` (ESLint 9 flat config ; dette lint préexistante).

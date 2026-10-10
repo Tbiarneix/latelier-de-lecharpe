@@ -1,0 +1,24 @@
+{
+  "_comment": "Données initiales du site. REMPLACER par les vraies valeurs (horaires, formules…) avant d'importer en production. Les horaires vides s'affichent « — ».",
+  "openingHours": [
+    { "day": "Lundi", "closedDay": true, "closedLunch": false, "closedDiner": false, "midi": { "debut": "", "fin": "" }, "soir": { "debut": "", "fin": "" } },
+    { "day": "Mardi", "closedDay": false, "closedLunch": false, "closedDiner": false, "midi": { "debut": "12:00", "fin": "14:00" }, "soir": { "debut": "19:00", "fin": "22:00" } },
+    { "day": "Mercredi", "closedDay": false, "closedLunch": false, "closedDiner": false, "midi": { "debut": "12:00", "fin": "14:00" }, "soir": { "debut": "19:00", "fin": "22:00" } },
+    { "day": "Jeudi", "closedDay": false, "closedLunch": false, "closedDiner": false, "midi": { "debut": "12:00", "fin": "14:00" }, "soir": { "debut": "19:00", "fin": "22:00" } },
+    { "day": "Vendredi", "closedDay": false, "closedLunch": false, "closedDiner": false, "midi": { "debut": "12:00", "fin": "14:00" }, "soir": { "debut": "19:00", "fin": "23:00" } },
+    { "day": "Samedi", "closedDay": false, "closedLunch": true, "closedDiner": false, "midi": { "debut": "", "fin": "" }, "soir": { "debut": "19:00", "fin": "23:00" } },
+    { "day": "Dimanche", "closedDay": true, "closedLunch": false, "closedDiner": false, "midi": { "debut": "", "fin": "" }, "soir": { "debut": "", "fin": "" } }
+  ],
+  "holidays": [],
+  "closedDays": [],
+  "formules": [
+    {
+      "nom": "Formule exemple",
+      "prix": 25,
+      "description": "À remplacer par la vraie formule.",
+      "elements": ["Entrée", "Plat", "Dessert"],
+      "active": true
+    }
+  ],
+  "menuFiles": []
+}
